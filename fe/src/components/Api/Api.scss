@@ -1,0 +1,46 @@
+.root{
+  width: 9.6rem;
+  margin: .1rem auto;
+}
+
+.api-title{
+  text-align: center;
+  font-weight: 700;
+}
+
+.api-table{
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 70%;
+  text-align: center;
+}
+
+.api-table th{
+  border: 1px solid #ccc;
+  text-align: center;
+  font-weight: bold
+}
+
+.api-table tr:nth-child(even){
+  background: #FDEFE6;
+}
+
+
+.api-table td{
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 992px) {
+  .root{
+    width:100%;
+    padding: 0 20px;
+    box-sizing:border-box;
+  }
+
+  .api-table{
+    width: 100%;
+  }
+}

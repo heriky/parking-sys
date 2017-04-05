@@ -1,0 +1,40 @@
+$smallScreen:768px;
+$mediumScreen:992px;
+$largeScreen:1200px;
+
+$minHeight : 3rem;
+:export{
+	minHeight:$minHeight
+}
+
+.container{
+	margin : 0 auto;
+	width: 9.6rem;
+	box-sizing: border-box;
+}
+
+.root{
+	height:$minHeight;
+}
+.wrapper{
+	width: 33.3333% ;
+	padding:.2rem 0 ;
+	// outline: 1px solid red;
+	float:left;
+}
+.indicator{
+	position: absolute;
+	right:0;top:.08rem;
+	li{
+		display: inline-block;
+		margin-right: 10px;
+	}
+}
+
+@media only screen and (max-width: $mediumScreen){
+	.container{
+		width: 100%;
+		padding: 0 20px;
+	}
+}
+

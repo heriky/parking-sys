@@ -1,0 +1,38 @@
+{
+  "name": "be",
+  "version": "1.0.0",
+  "description": "api server created by express",
+  "main": "api.js",
+  "scripts": {
+    "start": "node ./api"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "api",
+    "rest"
+  ],
+  "author": "hankang",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "connect-mongo": "^1.2.0",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "koa": "^1.2.4",
+    "koa-bodyparser": "^2.2.0",
+    "koa-router": "^5.4.0",
+    "koa-session": "^3.4.0",
+    "mocha": "^2.5.3",
+    "mongoose": "^4.5.0",
+    "morgan": "^1.7.0",
+    "mosca": "^2.0.1",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "koa-logger": "^1.3.0"
+  }
+}

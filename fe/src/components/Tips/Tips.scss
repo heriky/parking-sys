@@ -1,0 +1,36 @@
+.tips{
+	width: 9.6rem;
+	margin: 0 auto;
+	box-sizing: border-box;
+	span{
+		font-weight: 700;
+	}
+	p{
+		text-indent: .25rem;
+	}
+	.btn{
+		text-align:center;
+		padding:.2rem;
+	}
+	.btn button{
+		width:40%;
+		line-height: .4rem;
+		background-color:rgba(0,0,255,.7);
+		color:#fff;
+		text-align:inherit;
+		border:none;
+		border-radius:.05rem;
+
+	}
+	.btn button:hover{
+		background-color:rgba(0,0,255,1);
+			cursor: pointer;
+	}
+}
+
+@media only screen and (max-width: 992px){
+	.tips{
+		padding: 0 20px;
+		width: 100%;
+	}
+}

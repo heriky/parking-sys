@@ -1,0 +1,17 @@
+$smallScreen:768px;
+$mediumScreen:992px;
+$largeScreen:1200px;
+
+.root{
+	/*模块化基础字体设定为10px,便于计算,但是chrome对于小于12px的字体强制更改为12px，0.1rem的设置无效，因此只好改成0.2em的形式了*/
+
+
+	height: .6rem;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: #474e7a;
+	color:#fff;
+	position: relative;
+	padding-left:calc(100vw - 100%) ;
+}
+

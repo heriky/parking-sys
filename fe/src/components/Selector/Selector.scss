@@ -1,0 +1,33 @@
+.root{
+	width: 70%;
+	background-color: #ccc;
+	box-shadow: 0 0 1px ;
+	border-radius:.03rem;
+	margin:0 auto;
+}
+.list-item{
+	line-height: .4rem;
+	padding: 0 .2rem;
+	background-color:#fff;
+	border: 1px solid #ccc ;
+	border-bottom-width: 0 ;
+}
+.list-item:last-child{
+	border-bottom-width:1px;
+}
+.item-name{
+	color:blue;
+	font-weight: 700;
+}
+.item-name:hover{
+	color:#f60;
+}
+.item-status{
+	float: right;
+	text-align: right;
+	margin-right: 20px;
+}
+
+@media screen and (max-width: 992px){
+		margin-left:2%;
+}

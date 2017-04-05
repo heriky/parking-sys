@@ -1,0 +1,67 @@
+.extra{
+	position: relative;
+	height:1rem;
+	width: 1rem;
+	margin:0 auto;
+	position: relative;
+	perspective:500px;
+}
+
+
+.root{
+	height: 100%;
+	width: 100%;
+	border:.01rem solid #fee;
+	border-radius:.1rem;
+	background-color: #f00;
+	color:#333;
+	font-size: .24rem;
+	text-align: center;
+
+	transition: all .8s ease-out  ;
+	transform: rotateY(0deg) ;
+	transform-style: preserve-3d;
+	backface-visibility: hidden;
+}
+
+.backface{
+	position:absolute ;
+	top:0;right:0 ;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background-color: rgba(0,0,0,.4);
+	color: white;
+	text-align: center;
+	line-height: 1rem;
+
+	transition: all .8s ease-out  ;
+	transform-style: preserve-3d;
+	transform: rotateY(-180deg) ;
+	backface-visibility: hidden;
+}
+
+.extra:hover{
+	cursor: pointer;
+
+	&>.root{
+		transform: rotateY(180deg) ;
+		border-radius:.1rem;
+	}
+	&>.backface{
+		transform: rotateY(0deg) ;
+	}
+}
+
+
+
+
+.idle{
+	background-color: #00ff00;
+}
+.busy{
+	background-color:#f00;
+}
+.ordered{
+	background-color: #00a8ec;
+}

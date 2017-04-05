@@ -1,0 +1,149 @@
+.container{
+	width: 960px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	margin: 0 auto;
+}
+
+.navbar{
+	height: 60px;
+	background: #05f;
+}
+
+
+/**用户中心**/
+.user-flag{
+	padding: 16px 10px;
+}
+.decor{
+	width: 100%;
+	height: 4px;
+	margin: 10px 0;
+	background: linear-gradient(to right,#05f 20%, transparent 70%);
+}
+
+/**预定车位**/
+.user-orderd{
+	padding: 0 10px;
+	border-bottom: 1px solid #fee;
+
+	h4{
+		font: bold 18px Microsoft YaHei,sans-serif;
+	}
+}
+.ordered-info{
+	padding: 16px;
+}
+.ordered-info li{
+	line-height: 2;
+}
+.order-op, .order-cancle,.order-ensure{
+	margin: 8px;
+	padding: 0 15px;
+	border: none;
+	background: #f60;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.order-cancle{
+}
+.order-ensure{
+	background: #ccc;
+	color: black;
+	cursor: not-allowed;
+}
+
+/**相似车位**/
+.user-rec{
+	padding: 10px;
+	display: flex;
+	flex-flow: column wrap;
+	border: 1px solid #fee;
+}
+.rec-title{
+	font: bold 18px Microsoft YaHei,sans-serif;
+}
+.card-container{
+	flex: 1;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+}
+.rec-card{
+	height: auto;
+	flex: 1 0 25%;
+	margin: 10px;
+	box-sizing: border-box;
+	padding: 8px;
+	box-shadow: 0 0 3px #333;
+}
+.rec-card:hover{
+	box-shadow: 1px 1px 8px #333;
+}
+.card-item{
+	line-height: 2;
+	vertical-align: middle;
+}
+
+@media only screen and (max-width:992px){
+	.container{
+		width: 100%;
+		padding: 0 20px;
+	}
+	.around-table{
+		width: 100% !important;
+	}
+}
+
+.btn{
+	padding: 0 10px;
+	border: 1px solid #666;
+	border-radius: 3px;
+	background: transparent;
+	cursor: pointer;
+}
+.btn:hover{
+	background: #f60;
+	color: white;
+	border-color: transparent;
+}
+.status-occupy{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	background: red;
+	vertical-align: middle;
+}
+
+/**
+ * 周边停车场
+ */
+.around-park{
+	padding: 10px;
+}
+
+.around-park h4{
+	font: bold 18px Microsoft YaHei,sans-serif;
+}
+
+.around-table{
+	width: 70%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #ccc;
+	text-align: center;
+}
+.around-table th{
+	background: #ccc;
+	text-align: center;
+}
+.around-table tr:nth-child(odd){
+	background: #fce;
+}
+
+.around-table th,td{
+	padding:8px 15px;
+	border: 1px solid #eee;
+}

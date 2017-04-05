@@ -1,0 +1,18 @@
+.root{
+	margin: .2rem 0;
+	width: 9.6rem;
+}
+
+
+@media (max-width: 992px) {
+	.root{
+		width:100%;
+	}
+}
+
+@media only screen and (max-width: 768px){
+	.root{
+		width:100%;
+		overflow: hidden;
+	}
+}

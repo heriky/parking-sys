@@ -1,0 +1,72 @@
+	.root {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background: rgba(0, 0, 0, .6);
+	    z-index: 999;
+	}
+	
+	.modal {
+	    background: #fff;
+	    position: fixed;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    width: 30%;
+	    transition:all .3s ease-in-out;
+	}
+	
+	/*标题部分*/
+	.modal-desc {
+	    margin: 0;
+	    text-align: center;
+	    background: rgba(71, 78, 122, .8);
+	    color: #fff;
+	    padding: 10px 0;
+	}
+	
+	.modal-title {
+	    font-size: 0;
+	}
+	
+	.login-title,
+	.reg-title {
+	    display: inline-block;
+	    line-height: 30px;
+	    width: 50%;
+	    font-size: 14px;
+	    box-sizing: border-box;
+	    text-align: center;
+	    color: #bbb;
+	    text-decoration: none;
+	}
+	
+	.login-title:focus,
+	.reg-title:focus {
+	    color: #333;
+	    box-shadow: inset 0 -2px 0 #00f;
+	}
+	/*身体部分*/
+	
+	.modal-body {
+	    text-align: center;
+	}
+	
+	.modal-body input, .modal-body button {
+	    display: block;
+	    outline: none;
+	    border: none;
+	    padding: 5px;
+	    width: 60%;
+	    margin: 20px 40px;
+	    border-radius: 3px;
+	    border: 1px solid #ccc;
+	}
+	
+	.login-body>input:focus,
+	.login-body>input:focus {
+	    box-shadow: 0 0 5px #32cdec;
+	    border-color: #fff;
+	}

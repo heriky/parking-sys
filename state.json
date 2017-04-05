@@ -1,0 +1,20 @@
+{
+	home:{},
+	monitor:{
+		info:{                       
+			location:["",""],
+			status:1,
+			isFetching:false
+		},
+		detail:{
+			total:20,
+			busy:8,
+			ordered:5,
+			idle:7
+		},
+		distrubute:{	}
+	},
+	recommend:{},
+	openAPI:{},
+	feedback:{}
+}

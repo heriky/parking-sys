@@ -1,0 +1,13 @@
+vehicles:[{
+	_id:0,
+	location:[],
+	sensors[{
+		loc:xxx, // 如果有zigbee定位的时候
+		status:0, //0 空闲 1占用 2 预约
+		statusMsg:, //idle busy ordered
+	}],
+	meta:{
+		createdAt:xxx,
+		updateAt:xxxooo
+	}
+}]
