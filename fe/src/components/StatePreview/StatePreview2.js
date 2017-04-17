@@ -42,9 +42,8 @@ class StatePreview extends Component{
               <dt className = {styles['state-title']}>经纬度:</dt>
               <dd className = {styles['state-content']}>{`${parseFloat(location[0]).toFixed(3)} / ${parseFloat(location[1]).toFixed(3)}`}</dd>
               <dt className = {styles['state-title']}>当前停车场:</dt>
-              <dd className = {styles['state-content']}>{location[2]}</dd>
+              <dd className = {styles['state-content']}>{name}</dd>
             </dl>
-            <button className = {styles['btn-stop']}>停止监控</button>
           </div>
         }
       </Tab>

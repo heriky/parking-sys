@@ -1520,12 +1520,13 @@ require("source-map-support").install();
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.USER_INFO = exports.ORDERED_FAILURE = exports.ORDERED_RECEIVE = exports.ORDERED_PATCH = exports.RECIEVE_UPDATE_DATA = exports.VEHICLES_FAILURE = exports.VEHICLES_SUCCESS = exports.VEHICLES_REQUEST = exports.MONITOR_FAILURE = exports.MONITOR_SUCCESS = exports.MONITOR_REQUEST = undefined;
+	exports.QUERY_RANGE = exports.USER_INFO = exports.ORDERED_FAILURE = exports.ORDERED_RECEIVE = exports.ORDERED_PATCH = exports.RECIEVE_UPDATE_DATA = exports.VEHICLES_FAILURE = exports.VEHICLES_SUCCESS = exports.VEHICLES_REQUEST = exports.MONITOR_FAILURE = exports.MONITOR_SUCCESS = exports.MONITOR_REQUEST = undefined;
 	exports.loadMonitor = loadMonitor;
 	exports.loadVehicles = loadVehicles;
 	exports.receiveUpdateData = receiveUpdateData;
 	exports.userOrder = userOrder;
 	exports.fetchUserInfo = fetchUserInfo;
+	exports.queryRange = queryRange;
 
 	var _api = __webpack_require__(35);
 
@@ -1658,6 +1659,53 @@ require("source-map-support").install();
 	    }
 	  }).catch(function (err) {
 	    console.log('在action中获取用户信息时出错：' + err);
+	  });
+	}
+
+	var QUERY_RANGE = exports.QUERY_RANGE = 'QUERY_RANGE';
+	function range(data) {
+	  return {
+	    type: QUERY_RANGE,
+	    data: data
+	  };
+	}
+
+	function queryRange(range, location) {
+	  return function (dispatch, getState) {
+	    if (getState().user.range != null) {
+	      return null;
+	    }
+	    return fetchRange(dispatch, range, location);
+	  };
+	}
+
+	function fetchRange(dispatch, range, location) {
+	  var queryUrl = _env.C.apiBase + '/queryrange';
+	  (0, _isomorphicFetch2.default)(queryUrl, {
+	    method: 'POST',
+	    cache: 'default',
+	    headers: {
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify({
+	      location: location, // 当前位置经纬度
+	      range: range // 搜索距离范围
+	    })
+	  }).then(function (res) {
+	    if (res.ok) {
+	      return res.json();
+	    } else {
+	      throw new Error('查询地理位置出错');
+	    }
+	  }).then(function (json) {
+	    dispatch(range(json));
+	    // json格式
+	    // {
+	    //  range:
+	    //  near:[{object}]
+	    // }
+	  }).catch(function (err) {
+	    throw new Error('查询地理位置错误为：', err);
 	  });
 	}
 
@@ -2398,7 +2446,7 @@ require("source-map-support").install();
 	              _react2.default.createElement(
 	                'dd',
 	                { className: _StatePreview2.default['state-content'] },
-	                location[2]
+	                name
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -3204,6 +3252,11 @@ require("source-map-support").install();
 				});
 			}
 		}, {
+			key: 'queryNear',
+			value: function queryNear(range, location) {
+				(0, _actions.queryRange)(range, location);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
@@ -3217,6 +3270,7 @@ require("source-map-support").install();
 				// 推荐车位功能是从当前停车场中获取相似车位进行推荐
 				var username = this.props.user.username;
 				var userid = this.props.user._id;
+				var nearPoint = this.props.user.nearPoint.near || [];
 				var _props$user$ordered = this.props.user.ordered;
 				var vehicleId = _props$user$ordered.vehicleId;
 				var vehicleName = _props$user$ordered.vehicleName;
@@ -3228,6 +3282,7 @@ require("source-map-support").install();
 				// 	alert('您预订的车位状态发生了变化，请重新选择预订！')
 				// }
 
+				var range = 10;
 				debugger;
 				return _react2.default.createElement(
 					'div',
@@ -3258,7 +3313,7 @@ require("source-map-support").install();
 								'li',
 								null,
 								'停车场地点: ',
-								location[2] || '未预定车位'
+								vehicleName || '未预定车位'
 							),
 							_react2.default.createElement(
 								'li',
@@ -3465,12 +3520,19 @@ require("source-map-support").install();
 						_react2.default.createElement('br', null),
 						_react2.default.createElement('hr', null),
 						'查询附近停车场',
-						_react2.default.createElement('input', { type: 'number', placeholder: '1' }),
+						_react2.default.createElement('input', { type: 'number', placeholder: '1',
+							ref: function ref(node) {
+								range = node.value;
+							} }),
 						_react2.default.createElement(
 							'button',
-							{ className: _UserCenter2.default['order-op'] },
+							{ onClick: function onClick() {
+									return _this2.queryNear(range, location);
+								},
+								className: _UserCenter2.default['order-op'] },
 							'查询'
 						),
+						'(单位：米)',
 						_react2.default.createElement('div', { className: _UserCenter2.default["decor"] }),
 						_react2.default.createElement(
 							'table',
@@ -3478,7 +3540,7 @@ require("source-map-support").install();
 							_react2.default.createElement(
 								'caption',
 								null,
-								'停车场推荐列表'
+								'周边停车场列表'
 							),
 							_react2.default.createElement(
 								'tbody',
@@ -3499,11 +3561,6 @@ require("source-map-support").install();
 									_react2.default.createElement(
 										'th',
 										null,
-										'相距距离'
-									),
-									_react2.default.createElement(
-										'th',
-										null,
 										'总车位数'
 									),
 									_react2.default.createElement(
@@ -3517,44 +3574,46 @@ require("source-map-support").install();
 										'操作'
 									)
 								),
-								_react2.default.createElement(
-									'tr',
-									null,
-									_react2.default.createElement(
-										'td',
-										null,
-										'#0'
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'陕西科技大学停车场'
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'3.6km'
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'总车位:100'
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'空闲车位:30'
-									),
-									_react2.default.createElement(
-										'td',
-										null,
+								nearPoint.map(function (point, index) {
+									return _react2.default.createElement(
+										'tr',
+										{ key: index },
 										_react2.default.createElement(
-											'button',
-											{ className: _UserCenter2.default["btn"] },
-											'查看'
+											'td',
+											null,
+											'#',
+											index
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'point.name'
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'总车位:',
+											point.sensors.length
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'空闲车位:',
+											point.sensors.filter(function (sensor, index) {
+												return sensor.status == 0;
+											}).length
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											_react2.default.createElement(
+												'button',
+												{ className: _UserCenter2.default["btn"] },
+												'查看'
+											)
 										)
-									)
-								)
+									);
+								})
 							)
 						)
 					)
@@ -4089,7 +4148,8 @@ require("source-map-support").install();
 			vehicleName: "初始值",
 			location: ['0'],
 			sensorId: '初始值'
-		}
+		},
+		nearPoint: { range: 0, near: [] }
 	};
 
 	function user() {
@@ -4104,6 +4164,13 @@ require("source-map-support").install();
 				var tmp = (0, _lodash.merge)({}, state, user);
 				console.log('合并后的user为:' + JSON.stringify(tmp));
 				return tmp;
+			case ActionTypes.QUERY_RANGE:
+				var nearPoint = action.data;
+				var newData = (0, _lodash.merge)({}, state, {
+					nearPoint: nearPoint
+				});
+				debugger;
+				return newData;
 			default:
 				return state;
 		}

@@ -41,7 +41,8 @@ apiRouter
 apiRouter
 			.get('/vehicle/:id', vehiclesC.fetch)  // 客户端使用，获取单个停车场信息
 			.get('/vehicle/order/:id', vehiclesC.order)   // 客户端使用，提交客户端操作(用户占用车位)
-      .get('/vehicle/cancel/:id', vehiclesC.cancelOrder); // 客户端取消车位订阅
+      .get('/vehicle/cancel/:id', vehiclesC.cancelOrder) // 客户端取消车位订阅
+      .post('/queryrange', vehiclesC.queryRange) // 当前停车场的地理位置索引
 
 apiRouter
   .post('/login', userC.login)

@@ -40,6 +40,9 @@ exports.validateId = function* (next) {
  */
 exports.save = function* (next){ // 将sensorId变成："停车场id_传感器id"的形式
 	var vehicleObj = this.request.body ;
+	vehicleObj.location = vehicleObj.location.map((loc, index)=>{ // 字符串类型的经纬度转换为数字形式，方便索引
+		return parseFloat(loc);
+	})
 
 	var requiredInfo = Object.assign({},vehicleObj,{
 		sensors:vehicleObj.sensors.map((sensor,index)=>{
@@ -373,5 +376,24 @@ exports.near = function* (next){
 		}
 	}catch(err){
 		console.log('地理位置索引出错！', err)
+	}
+}
+
+/**
+ * 查询附近停车场
+ */
+exports.queryRange = function* (next){
+	var obj = this.request.body;
+	var location = obj.location;
+	var range = obj.range;
+
+	try{
+		var rs = yield Vehicle.find({location:{$near:[location[0], location[1]],$maxDistance:range}}).exec();
+		this.body = {
+			range: range,
+			near: rs
+		}
+	}catch(err){
+		console.log('地理位置索引错误：',err);
 	}
 }

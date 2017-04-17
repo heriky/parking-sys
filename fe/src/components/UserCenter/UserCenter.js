@@ -4,7 +4,7 @@ import styles from './UserCenter.scss';
 import { browserHistory } from 'react-router';
 import fetch from 'isomorphic-fetch';
 import {C} from '../../env.config';
-import {fetchUserInfo} from '../../actions';
+import {fetchUserInfo, queryRange} from '../../actions';
 
 class UserCenter extends Component{
 	constructor(props){
@@ -50,11 +50,7 @@ class UserCenter extends Component{
 
 	componentDidMount(){
 		// 先从缓存中获取，若没有缓存才重新发送请求
-		const cachedUser = sessionStorage.getItem('_user');
-		if (cachedUser == null) {
-			dispatch(fetchUserInfo(this.props.params.id));
-			location.reload()
-		}
+		this.props.dispatch(fetchUserInfo(this.props.params.id));
 	}
 
 	onComplete(){
@@ -65,6 +61,11 @@ class UserCenter extends Component{
 		})
 	}
 
+	queryNear(range, location){
+		debugger;
+		this.props.dispatch(queryRange(range, location));
+	}
+
 	render(){
 		/**
 		 * 	vehicleId: String,
@@ -73,13 +74,20 @@ class UserCenter extends Component{
 		sensorId: String
 		 */
 		// 推荐车位功能是从当前停车场中获取相似车位进行推荐
+		if (this.props.user._id != null) {
+			sessionStorage.setItem('_user', JSON.stringify(this.props.user));
+		}
+
 		const username = this.props.user.username;
 		const userid = this.props.user._id;
+		const nearPoint = this.props.user.nearPoint.near || [];
 		const {vehicleId, vehicleName, location, sensorId, loc} = this.props.user.ordered;
 		// const ordered_sensor = this.props.sensors[vehicleId+'_'+sensorId];
 		// if (ordered_sensor!= null && ordered_sensor[currentStatus] != 'ordered') {
 		// 	alert('您预订的车位状态发生了变化，请重新选择预订！')
 		// }
+
+		var rangeInput;
 		debugger;
 		return <div className={styles["container"]}>
 			<h3 className={styles["user-flag"]}><u>{username}</u>的用户中心</h3>
@@ -87,14 +95,21 @@ class UserCenter extends Component{
 				<h4>已预订车位</h4>
 				<div className={styles["decor"]}></div>
 				<ul className={styles["ordered-info"]}>
-					<li>停车场地点: {location[2] || '未预定车位'}</li>
+					<li>停车场地点: {vehicleName || '未预定车位'}</li>
 					<li>车位编号: {sensorId || '未预定车位'}</li>
 					<li>车位当前状态: {vehicleName==null ? '未指定' : '已预订'}
 					</li>
 					<li>
-						<button className={styles["order-op"]} onClick = {()=>this.onPlanClick(location[0], location[1])}>查看路径规划</button>
-						<button className={styles["order-ensure"]}>√已预订</button>
-						<button className={styles["order-op"]} onClick={()=>{this.onComplete()}} style={{background: 'rgb(0,255,0)',color:'black'}}>完成停车</button>
+						<button className={styles["order-op"]} onClick = {()=>this.onPlanClick(location[0], location[1])}
+							disabled={sensorId==null ? true: false}
+							style={{background: sensorId==null? '#ccc':'#f60', cursor: sensorId==null?'not-allowed':'pointer'}}
+						>查看路径规划</button>
+						<button className={styles["order-op"]}
+						onClick={()=>{this.onComplete()}}
+						disabled={sensorId==null ? true: false}
+						style={{background: sensorId==null? '#ccc':'#f60', cursor: sensorId==null?'not-allowed':'pointer'}}>
+						完成停车
+						</button>
 						<button className={styles["order-cancle"]}
 						onClick={(e)=>{
 							this.onCancel(vehicleId+'_'+sensorId+'_'+userid);}
@@ -169,51 +184,31 @@ class UserCenter extends Component{
 				<h4>周边停车场</h4>
 				<br/>
 				<hr/>
-				查询附近停车场<input type="number" placeholder='1'/><button className={styles['order-op']}>查询</button>
+				查询附近停车场
+				<input type="number" placeholder='1'
+				ref={(node)=>{rangeInput = node}}/>
+				<button onClick={()=>this.queryNear(rangeInput.value, location)}
+						className={styles['order-op']}>查询</button>(单位：米)
 				<div className={styles["decor"]}></div>
 				<table className={styles["around-table"]}>
-					<caption>停车场推荐列表</caption>
+					<caption>周边停车场列表</caption>
 					<tbody>
 						<tr>
 							<th>编号</th>
 							<th>地点</th>
-							<th>相距距离</th>
 							<th>总车位数</th>
 							<th>空闲位数</th>
 							<th>操作</th>
 						</tr>
-						<tr>
-							<td>#0</td>
-							<td>陕西科技大学停车场</td>
-							<td>3.6km</td>
-							<td>总车位:100</td>
-							<td>空闲车位:30</td>
-							<td><button className={styles["btn"]}>查看</button></td>
-						</tr>
-						<tr>
-							<td>#0</td>
-							<td>陕西科技大学停车场</td>
-							<td>3.6km</td>
-							<td>总车位:100</td>
-							<td>空闲车位:30</td>
-							<td><button className={styles["btn"]}>查看</button></td>
-						</tr>
-						<tr>
-							<td>#0</td>
-							<td>陕西科技大学停车场</td>
-							<td>3.6km</td>
-							<td>总车位:100</td>
-							<td>空闲车位:30</td>
-							<td><button className={styles["btn"]}>查看</button></td>
-						</tr>
-						<tr>
-							<td>#0</td>
-							<td>陕西科技大学停车场</td>
-							<td>3.6km</td>
-							<td>总车位:100</td>
-							<td>空闲车位:30</td>
-							<td><button className={styles["btn"]}>查看</button></td>
-						</tr>
+						{nearPoint.map((point, index)=>{
+							return 	<tr key={index}>
+								<td>#{index}</td>
+								<td>{point.name}</td>
+								<td>总车位:{point.sensors.length}</td>
+								<td>空闲车位:{point.sensors.filter((sensor,index)=>{return sensor.status==0}).length}</td>
+								<td><button className={styles["btn"]}>查看</button></td>
+							</tr>
+						})}
 					</tbody>
 				</table>
 			</div>

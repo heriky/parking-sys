@@ -13,7 +13,8 @@ const initialState = {
 		vehicleName: "初始值",
 		location: ['0'],
 		sensorId: '初始值'
-	}
+	},
+	nearPoint: {range:0, near:[]}
 }
 
 function user(state=initialState, action){
@@ -25,6 +26,13 @@ function user(state=initialState, action){
 			const tmp = merge({}, state, user)
 			console.log('合并后的user为:'+ JSON.stringify(tmp))
 			return tmp;
+		case ActionTypes.QUERY_RANGE:
+			var nearPoint = action.data;
+			var newData = merge({}, state, {
+				nearPoint: nearPoint
+			})
+			debugger;
+			return newData;
 		default:
 			return state;
 	}

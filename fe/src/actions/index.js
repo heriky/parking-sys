@@ -127,3 +127,53 @@ function fetchUser(userUrl, dispatch){
     console.log('在action中获取用户信息时出错：'+ err)
   })
 }
+
+export  const QUERY_RANGE = 'QUERY_RANGE';
+function nearInfo(data){
+  debugger;
+  return {
+    type: QUERY_RANGE,
+    data
+  }
+}
+
+export function queryRange(range, location){
+  return (dispatch, getState)=>{
+    if (getState().user.range!=null) {
+      return null;
+    }
+    return fetchRange(dispatch, range, location)
+  }
+}
+
+function fetchRange(dispatch,range,location){
+  debugger;
+  const queryUrl =  C.apiBase +'/queryrange';
+  fetch(queryUrl, {
+    method: 'POST',
+    cache: 'default',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      location: location, // 当前位置经纬度
+      range:range // 搜索距离范围
+    })
+  })
+  .then(res=>{
+    if (res.ok) {
+      return res.json()
+    }else{
+      throw new Error('查询地理位置出错')
+    }
+  })
+  .then(json=>{
+    debugger;
+    return dispatch(nearInfo(json))
+    // json格式
+    // {
+    //  range:
+    //  near:[{object}]
+    // }
+  })
+}

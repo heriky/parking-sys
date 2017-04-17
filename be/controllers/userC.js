@@ -84,3 +84,4 @@ exports.fetchInfo = function* (next){
 		console.log(err)
 	}
 }
+

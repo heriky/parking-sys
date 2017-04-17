@@ -38,8 +38,9 @@ class Monitor extends Component{
           }
         }else{
           var userid = user._id;
-          target.style.cssText = 'text-decoration: underline';
-          this.props.dispatch(userOrder(sensorId, userid));
+          if (window.confirm('是否预订该车位？')) {
+            this.props.dispatch(userOrder(sensorId, userid));
+          }
         }
       }catch(err){
         alert('请登陆后操作!')

@@ -7,7 +7,7 @@ var Schema = mongoose.Schema ;
 var vehicleShcema = new Schema({
 	id:String,		// 停车场id，用于代理数据库中的_id值。
 	name:String,  // 停车场名称
-	location:[String], // longitude 经度 + latitude 纬度 +　concrete具体位置
+	location:[Number], // longitude 经度 + latitude 纬度  数字形式方便进行地理位置索引
 	sensors:[{
 		sensorId:Number,
 		distance:Number, // 传感器距离
