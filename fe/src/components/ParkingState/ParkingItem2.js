@@ -32,7 +32,7 @@ const ParkingItem = ({id,pos,currentStatus, onOrderClick, sensorFetching})=>{
         return ;
       }
       // 触发车位预定,向服务器请求
-      onOrderClick()
+      onOrderClick(e.target)
     }
     }>
       <div className={finalStyle}>

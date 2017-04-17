@@ -23,7 +23,7 @@ class StatePreview extends Component{
     const {vehicle, isFetching} = this.props;
     const { id, name, location, total, status, sensors } = vehicle;
     var d = new Date();
-    var date = d.getFullYear()+'-'+d.getMonth()+1 +'-'+d.getDate();
+    var date = d.getFullYear()+'-'+(d.getMonth()+1) +'-'+d.getDate()+ '  '+d.getHours()+':'+d.getMinutes();
     return (
       <div className = {styles.container}>
       <Tab title="状态预览">
@@ -41,7 +41,7 @@ class StatePreview extends Component{
               <br />
               <dt className = {styles['state-title']}>经纬度:</dt>
               <dd className = {styles['state-content']}>{`${parseFloat(location[0]).toFixed(3)} / ${parseFloat(location[1]).toFixed(3)}`}</dd>
-              <dt className = {styles['state-title']}>当前位于:</dt>
+              <dt className = {styles['state-title']}>当前停车场:</dt>
               <dd className = {styles['state-content']}>{location[2]}</dd>
             </dl>
             <button className = {styles['btn-stop']}>停止监控</button>

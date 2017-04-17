@@ -21,11 +21,11 @@ class Modal extends Component{
 	    },
 	    body: JSON.stringify({username, password})
 		}).then(res=>res.json()).then(data=>{
-			debugger;
 			if (data.result == 'ok') {
 				// 写入sessionStorage,保持登录
 				alert('登入成功')
 				sessionStorage.setItem('_user', JSON.stringify(data.user));
+				location.reload(); // 登录成功后刷新页面
 			}else{
 				alert('登入失败')
 			}
@@ -43,7 +43,8 @@ class Modal extends Component{
 	    },
 	    body: JSON.stringify({username, password})
 		}).then(res=>res.text()).then(rs=>{
-			console.log('注册成功........')
+			alert('注册成功');
+			window.loaction.reload();
 		})
 	}
 
@@ -59,8 +60,8 @@ class Modal extends Component{
 		if (loginBtn && btnState=='login') { loginBtn.focus(); }
 		if (regBtn && btnState == 'reg') { regBtn.focus(); }
 
-		return <div 
-			className={styles['root']}  
+		return <div
+			className={styles['root']}
 			style={{display: isShow?'block':'none'}}
 			onClick = {e=>{changeModalVisible(false)}}>
 		<div className={styles["modal"]} onClick={(e)=>{ e.stopPropagation()}}>
@@ -83,7 +84,7 @@ class Modal extends Component{
 				    	<input required autoComplete type="text"  ref={node=>username_reg = node} placeholder="注册用户名" />
 				    	<input required autoComplete type="password" ref={node=>pwd_reg = node} placeholder="密码" />
 				    	<input required autoComplete type="password" ref={node=>pwd_reg = node} placeholder="重复密码" />
-				    	<input type='submit' value='注册' /> 
+				    	<input type='submit' value='注册' />
 				    </form>
 				</div>
 		</div>

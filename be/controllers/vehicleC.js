@@ -1,6 +1,6 @@
 const Vehicle = require('../models/vehicleM'); // 导入模型
 const User = require('../models/UserM');
-const TRIGGER_DISTANCE = 3 ; // 触发停车事件的距离
+const TRIGGER_DISTANCE = 6 ; // 触发停车事件的距离
 
 const _ = require('lodash');
 
@@ -145,10 +145,6 @@ exports.updateSensor = function* (next){
 exports.fetchAll = function* () {
 	const vehicles = yield Vehicle.fetchAll() ;
 	this.status = 200 ;
-	// this.body = {
-	// 	ids: vehicles.map(vehicle=> vehicle._id),
-	// 	names: vehicles.map(vehicle=> vehicle.name)
-	// }
 	this.body = vehicles.map((vehicle, index)=>{
 		var sensors = vehicle.sensors;
 		var id = vehicle._id;
@@ -242,20 +238,39 @@ exports.order = function* (next) {
 	 */
 	try{
 		// 登录用户再预定车位后进行信息存储，以便于再次调用
-		var user = this.session.user;
-		var newUser =_.merge({}, user, {
-			ordered: {
-			  vehicleId,
-			  vehicleName: vehicle.name,
-			  location: vehicle.location,
-			  sensorId
-			}
-		});
-		var rs = yield User.update({_id: user._id}, newUser).exec();
+		var userid = this.query.userid; // 预定用户的id从url中获取
+		var user = yield User.findOne({_id: userid}).exec();
+
+		console.log('__________________标记保存用户的错误！')
+
+		// var newUser =Object.assign({}, user, {
+		// 	ordered: {
+		// 	  vehicleId: vehicleId,
+		// 	  vehicleName: vehicle.name,
+		// 	  location: vehicle.location,
+		// 	  sensorId: sensorId
+		// 	}
+		// });
+
+		// var order_info = {
+		// 	vehicleId: vehicleId,
+		// 	vehicleName: vehicle.name,
+		// 	location: vehicle.location,
+		// 	sensorId: sensorId
+		// }
+		var rs = yield User.update({_id: userid}, {$set: {
+			'ordered.vehicleId': vehicleId,
+			'ordered.vehicleName': vehicle.name,
+			'ordered.location': vehicle.location,
+			'ordered.sensorId': sensorId
+		}}).exec(); // 更新数据
+		console.log('___________________用户预定数据更新成功后的数据为：', JSON.stringify(rs))
 
 		if (rs == null) {
 			console.log('用户预定数据保存出错，请仔细检查代码！')
 			throw new Error('用户预定数据保存出错，请仔细检查代码！');
+		}else{
+			console.log('用户预定数据保存成功。')
 		}
 	}catch(err){
 		console.log(err)
@@ -297,3 +312,66 @@ exports.order = function* (next) {
 	}
 }
 
+exports.cancelOrder = function* (next){
+	const id = this.params.id; // 这个id的组成是vehicleid_sensorid
+	const tmp = id.split('_');
+	const vehicleId = tmp[0] ;
+	const sensorId = tmp[1] ;
+	const userid = tmp[2];
+
+	const vehicle = yield Vehicle.findById(vehicleId);
+	if (vehicle == null) {
+		this.status = 400 ;
+		return this.body = {code: 400, error: '无效的停车场id'};
+	}
+
+	const sensors = vehicle.sensors
+	sensors.forEach(function(sensor,index){
+		if (sensor.sensorId == sensorId) {  // 找到相应的id值，将其变成"预订状态",状态值为2
+			const currentDistance = parseInt(sensor.distance) ;
+			sensor.status = currentDistance > TRIGGER_DISTANCE ? 0 : 1,
+			sensor.statusMsg = currentDistance > TRIGGER_DISTANCE ? "idle" : "busy" ;
+			return; // 提早结束
+		}
+	}) ;
+
+	const updatedVehicle = yield vehicle.save();
+	try{
+		// 删除User中相关预定消息
+		var rs = yield User.update({_id: userid}, {$set: {
+			'ordered.vehicleId': null,
+			'ordered.vehicleName': null,
+			'ordered.location': [],
+			'ordered.sensorId': null
+		}}).exec(); // 更新数据
+
+		return this.body = {result: 'ok', msg:'成功取消'}
+	}catch(err){
+		console.log('取消车位时的错误：'+err)
+	}
+}
+
+// 搜索附近停车场
+exports.near = function* (next){
+	var data = this.request.body;
+	var lng = parseFloat(data.lng);
+	var lat = parseFloat(data.lat);
+	var distance = data.distance;
+
+	try{
+		var rs = yield Vehicle.find({location:{$geoWithin:{
+			$geometry:{
+				type: 'Polygon',
+				coordinates:[[[lng, lat]]]
+			}
+		}}}).exec();
+
+		if (rs != null) {
+			return this.body = {result: rs, msg:'ok'}
+		}else{
+			return this.body = {result: '错误', msg:'error'}
+		}
+	}catch(err){
+		console.log('地理位置索引出错！', err)
+	}
+}

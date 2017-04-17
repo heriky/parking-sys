@@ -20,15 +20,40 @@ class Monitor extends Component{
   ]
 
   // 处理预订车位操作
-  handleOrder(sensorId){
+  handleOrder(sensorId, target){
       // 检测登录状态
       try{
         let user = JSON.parse(sessionStorage.getItem('_user'));
         // 向服务器发送"预定"请求, 同时更新已登录用户的信息
-        this.props.dispatch(userOrder(sensorId))
+        if (user == null) {
+          alert('未登录的用户，禁止预定车位操作！')
+          return;
+        }
+        if (user.ordered.vehicleId != null) {
+          var rs = window.confirm('每个用户只允许预定一个车位,是否替换当前预约的车位？');
+          if (rs) {
+            var userid = user._id;
+            target.style.cssText = 'text-decoration: underline';
+            this.props.dispatch(userOrder(sensorId, userid));
+          }
+        }else{
+          var userid = user._id;
+          target.style.cssText = 'text-decoration: underline';
+          this.props.dispatch(userOrder(sensorId, userid));
+        }
       }catch(err){
         alert('请登陆后操作!')
       }
+  }
+
+  /**
+   * 根据当前停车场中所有停车位的评分，来获取被预定车位的相似推荐
+   * @param  {[type]} sensors  [description]
+   * @param  {[type]} sensorId [description]
+   * @return {[type]}          [description]
+   */
+  getRecommendation(sensors, sensorId){
+
   }
 
   componentDidMount(){

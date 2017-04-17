@@ -8,23 +8,24 @@ const http = require('http');
 const logger = require('koa-logger');
 const mongoose = require('mongoose');
 
-const session = require('koa-session') ; 
-app.keys = ['hk', 'This is signed characters']; // 配置session在cookie中保存的名字，默认为"koa:sess"
-app.use(session(app)) ;
-
-// app.use(function* (next){
-	
-// 	// 用户验证？？？
-
-// 	yield next;
-// })
-
+const session = require('koa-session') ;
 const bodyParser = require('koa-bodyparser')
+
 app.use(bodyParser()) ; // 配置bodyParser
+
+// 配置session
+const CONFIG = {
+  key: 'koa:sess', /** (string) cookie key (default is koa:sess) */
+  maxAge: 86400000, /** (number) maxAge in ms (default is 1 days) */
+  overwrite: true, /** (boolean) can overwrite or not (default true) */
+  httpOnly: true, /** (boolean) httpOnly or not (default true) */
+  signed: true, /** (boolean) signed or not (default true) */
+};
+app.keys = ['hk', 'This is signed characters']; // 配置session在cookie中保存的名字，默认为"koa:sess"
+app.use(session(CONFIG, app)) ;
 
 const mqttServer = require('./plugins/mqttPlugin').mqttServer ;
 
-// var app = express() ;
 // 1.基本配置
 app.use(logger());
 

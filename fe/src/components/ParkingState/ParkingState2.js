@@ -14,7 +14,7 @@ const ParkingState = ({sensors, onOrderClick, isFetching})=>(
       isFetching ? <div className = {styles.root}><ProgressBar /><v style = {{height:styles.minHeight}}/></div> : <div>
       {sensors.map((sensor,index)=>
         <div className = {styles.wrapper} key = {sensor.id}>
-          <ParkingItem {...sensor} sensorFetching = {isFetching} onOrderClick = {()=>onOrderClick(sensor.id)}/>
+          <ParkingItem {...sensor} sensorFetching = {isFetching} onOrderClick = {(target)=>onOrderClick(sensor.id, target)}/>
         </div>
       )}
     </div>

@@ -17,13 +17,13 @@ class Path extends Component{
       center: [locObj.lng, locObj.lat],
       zoom: 90
     });
-
+  debugger;
     //1. 定位
     if (locObj != null) {
       // 2.规划路线
       // 获取当前位置和目标位置的经纬度
       var q = this.props.location.query;
-      var destLoc = [q.lng, q.lat];
+      var destLoc = [ parseFloat(q.lat),parseFloat(q.lng)];
       var srcLoc = [locObj.lng, locObj.lat];
       plan(mapObj, srcLoc, destLoc)
 
@@ -34,7 +34,7 @@ class Path extends Component{
         // 2.规划路线
         // 获取当前位置和目标位置的经纬度
         var q = this.props.location.query;
-        var destLoc = [q.lng, q.lat];
+        var destLoc = [parseFloat(q.lat), parseFloat(q.lng)];
         var srcLoc = [locObj.lng, locObj.lat];
         plan(mapObj, srcLoc, destLoc)
 
@@ -84,7 +84,7 @@ function loc(mapObj, cb){
       cb(currentLocation);
     });
     AMap.event.addListener(geolocation, 'error', err=>{
-      alert(err.info)
+      alert('获取定位错误:'+err.info)
     });
   });
 }
@@ -99,9 +99,10 @@ function plan(mapObj, src, dest){
        panel: "result"
      });
 
+     debugger;
      driving.search(src, dest, function(status, result) {
         //TODO 解析返回结果，自己生成操作界面和地图展示界面
-        alert(status)
+        alert("定位完成，结果是："+status)
     });
   });
 }

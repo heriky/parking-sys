@@ -117,6 +117,11 @@
 	vertical-align: middle;
 }
 
+.status-idle{
+	@extend .status-occupy;
+	background-color: rgb(0,255,0);
+}
+
 /**
  * 周边停车场
  */
@@ -146,4 +151,27 @@
 .around-table th,td{
 	padding:8px 15px;
 	border: 1px solid #eee;
+}
+.rate-box{
+	padding:10px
+}
+.rate-box legend{
+	font: 700 14px Microsoft YaHei,sans-serif;
+}
+.rate-item{
+	line-height: 1.5;
+}
+.rate-item span{
+	display: inline-block;
+	width: 300px;
+}
+.btn-rate{
+	width: 200px;
+	line-height: 2;
+	background: #f60;
+	border-radius: 5px;
+	border: none;
+	color: white;
+	cursor: pointer;
+	margin-top: 15px;
 }

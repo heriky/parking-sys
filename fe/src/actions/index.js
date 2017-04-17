@@ -67,12 +67,12 @@ export const ORDERED_PATCH = 'ORDERED_PATCH';
 export const ORDERED_RECEIVE = 'ORDERED_RECEIVE';  // 订单管理：预定或者取消预定
 export const ORDERED_FAILURE = 'ORDERED_FAILURE';
 
-export function userOrder(sensorId){ // {id, sensorId, status}
+export function userOrder(sensorId, userid){ // {id, sensorId, status}
   return {
     sensorId,
     [CALL_API]:{
       types: [ORDERED_PATCH, ORDERED_RECEIVE, ORDERED_FAILURE],
-      endpoint: "/api/v1/vehicle/order/"+sensorId,
+      endpoint: "/api/v1/vehicle/order/"+sensorId+'?userid='+userid,
     }
   }
 }

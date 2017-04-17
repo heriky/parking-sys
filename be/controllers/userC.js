@@ -21,7 +21,7 @@ exports.reg = function* (next){
 		ordered:{
 			vehicleId: null,
 			vehicleName: null,
-			location: [''],
+			location: [],
 			sensorId: null
 		},
 		loc: [0,0]
@@ -49,21 +49,16 @@ exports.login = function* (next){
 	const username = this.request.body.username;
 	const password = this.request.body.password;
 
-	console.log(JSON.stringify(this.request.body));
-
 	var user = yield User.findOne({username, password}).exec();
 
 	if (user != null) {
-		console.log('登录成功,写入session');
+
 		this.status = 200 ;
-		try{
-			this.session.user = user;
-		}catch(err){
-			console.log(err);
-		}
+		this.session.user = user;
+		console.log('登录成功,写入session');
+
 		delete user.username;
 		delete user.password; // 删除敏感信息
-		console.log(user)
 		return this.body = {result: 'ok', user}
 	}
 	return this.body = {result: 'fail'}
@@ -71,14 +66,14 @@ exports.login = function* (next){
 
 
 exports.fetchInfo = function* (next){
-	// if (this.session.user == null) {       // 用户验证有错误的，不知道问题出在哪里？
+	// if (this.session.user == null) {       // 用户验证有错误的，因为是cookie-based session 所以失效
 	// 	console.log('未登录的用户，不能返回预定车位的信息！')
 	// 	return ;
 	// }
 
 	try{
 		const userid = this.params.id;
-		var user = yield User.findOne({_id: userid});
+		var user = yield User.findOne({_id: userid}).exec();
 
 		const ordered = user.ordered;
 		this.type = 'json';

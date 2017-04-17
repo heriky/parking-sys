@@ -73,15 +73,15 @@ require("source-map-support").install();
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _configureStore = __webpack_require__(64);
+	var _configureStore = __webpack_require__(65);
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
-	var _renderPage = __webpack_require__(74);
+	var _renderPage = __webpack_require__(75);
 
 	var _renderPage2 = _interopRequireDefault(_renderPage);
 
-	var _fetchDependentData = __webpack_require__(75);
+	var _fetchDependentData = __webpack_require__(76);
 
 	var _fetchDependentData2 = _interopRequireDefault(_fetchDependentData);
 
@@ -91,10 +91,10 @@ require("source-map-support").install();
 
 
 	//import {createLocation} from 'history/lib/LocationUtils'; // 用这个消除index.js.map 的恶心bug
-	var webpack = __webpack_require__(76);
-	var webpackHotMiddleware = __webpack_require__(77);
-	var webpackDevMiddleware = __webpack_require__(78);
-	var config = __webpack_require__(79);
+	var webpack = __webpack_require__(77);
+	var webpackHotMiddleware = __webpack_require__(78);
+	var webpackDevMiddleware = __webpack_require__(79);
+	var config = __webpack_require__(80);
 
 	var app = (0, _express2.default)();
 
@@ -103,9 +103,9 @@ require("source-map-support").install();
 	app.use(webpackHotMiddleware(compiler));
 
 	// 配置http和socket服务器， 配置mqtt客户端
-	var server = __webpack_require__(84).Server(app);
-	var mqtt = __webpack_require__(53);
-	var io = __webpack_require__(85)(server);
+	var server = __webpack_require__(85).Server(app);
+	var mqtt = __webpack_require__(54);
+	var io = __webpack_require__(86)(server);
 
 	var resourceDir = _path2.default.resolve(__dirname, '../../resources');
 	app.use(_express2.default.static(resourceDir, { maxAge: '365d' }));
@@ -256,23 +256,23 @@ require("source-map-support").install();
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _Monitor = __webpack_require__(32);
+	var _Monitor = __webpack_require__(33);
 
 	var _Monitor2 = _interopRequireDefault(_Monitor);
 
-	var _VehicleSelector = __webpack_require__(54);
+	var _VehicleSelector = __webpack_require__(55);
 
 	var _VehicleSelector2 = _interopRequireDefault(_VehicleSelector);
 
-	var _Path = __webpack_require__(57);
+	var _Path = __webpack_require__(58);
 
 	var _Path2 = _interopRequireDefault(_Path);
 
-	var _Api = __webpack_require__(59);
+	var _Api = __webpack_require__(60);
 
 	var _Api2 = _interopRequireDefault(_Api);
 
-	var _UserCenter = __webpack_require__(61);
+	var _UserCenter = __webpack_require__(62);
 
 	var _UserCenter2 = _interopRequireDefault(_UserCenter);
 
@@ -537,20 +537,6 @@ require("source-map-support").install();
 						),
 						_react2.default.createElement(
 							'li',
-							{ className: _NavbarMenu2.default['menu-item'], key: '3', 'data-role': 'navlink' },
-							_react2.default.createElement(
-								_NavLink2.default,
-								{ to: '/recommend' },
-								_react2.default.createElement(
-									'i',
-									{ className: 'iconfont' },
-									''
-								),
-								' 推荐'
-							)
-						),
-						_react2.default.createElement(
-							'li',
 							{ className: _NavbarMenu2.default['menu-item'], key: '4', 'data-role': 'navlink' },
 							_react2.default.createElement(
 								_NavLink2.default,
@@ -607,20 +593,6 @@ require("source-map-support").install();
 									''
 								),
 								' 监控'
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							{ onClick: this.toggleNav, className: _NavbarMenu2.default['menu-item'], key: '3', 'data-role': 'navlink' },
-							_react2.default.createElement(
-								_NavLink2.default,
-								{ to: '/recommend' },
-								_react2.default.createElement(
-									'i',
-									{ className: 'iconfont' },
-									''
-								),
-								' 推荐'
 							)
 						),
 						_react2.default.createElement(
@@ -898,14 +870,14 @@ require("source-map-support").install();
 				}).then(function (res) {
 					return res.json();
 				}).then(function (data) {
-					debugger;
 					if (data.result == 'ok') {
 						// 写入sessionStorage,保持登录
 						alert('登入成功');
 						sessionStorage.setItem('_user', JSON.stringify(data.user));
+						location.reload(); // 登录成功后刷新页面
 					} else {
-						alert('登入失败');
-					}
+							alert('登入失败');
+						}
 				});
 			}
 		}, {
@@ -925,7 +897,8 @@ require("source-map-support").install();
 				}).then(function (res) {
 					return res.text();
 				}).then(function (rs) {
-					console.log('注册成功........');
+					alert('注册成功');
+					window.loaction.reload();
 				});
 			}
 		}, {
@@ -1200,18 +1173,117 @@ require("source-map-support").install();
 
 	var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
 
+	var _Home = __webpack_require__(32);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Home = function Home(props) {
 		return _react2.default.createElement(
 			'div',
-			null,
+			{ className: _Home2.default["container"] },
 			_react2.default.createElement(
-				'h2',
-				null,
-				'这里是主页，暂时没有内容！'
+				'div',
+				{ className: _Home2.default["sys-desc"] },
+				_react2.default.createElement(
+					'h2',
+					{ className: _Home2.default["desc-title"] },
+					_react2.default.createElement(
+						'i',
+						{ className: 'iconfont', style: { font: 21 } },
+						''
+					),
+					'系统描述'
+				),
+				_react2.default.createElement(
+					'p',
+					{ className: _Home2.default["desc-content"] },
+					'随着国民经济不断发展，人民生活品质日益提高，城市汽车保有量大幅增加，停车难成为人们工作生活中的一大难题，由此造成了交通堵塞、环境污染、资源浪费等问题。本研究根据当前停车系统现状，设计了一种基于ZigBee无线传感网络的智能停车系统，通过线上线下互动管理停车位，提高了车位的利用率，有效缓解了城市停车混乱的问题。'
+				)
 			),
-			_react2.default.createElement(_ProgressBar2.default, null)
+			_react2.default.createElement(
+				'div',
+				{ className: _Home2.default["func-desc"] },
+				_react2.default.createElement(
+					'h2',
+					{ className: _Home2.default["desc-title"] },
+					_react2.default.createElement(
+						'i',
+						{ className: 'iconfont', style: { font: 21 } },
+						''
+					),
+					'功能描述'
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _Home2.default["desc-content"] },
+					'经过对“滴滴打车”运作模式进行研究，基于O2O理念，结合传感网络、物联网和互联网技术，研究探讨停车智能管理的解决方案，旨在缓解停车场信息共享困难，减少用户寻找停车位的成本，提高停车管理的智能化和自动化程度。针对传统停车场所面临的困境，本系统提供了如下功能：',
+					_react2.default.createElement(
+						'ul',
+						null,
+						_react2.default.createElement(
+							'li',
+							{ style: { fontWeight: 700, textDecoration: 700 } },
+							'1. 在线查看停车场中车位状态功能。减轻用户对停车形势的盲目性，为用户提供实时性的停车信息。'
+						),
+						_react2.default.createElement(
+							'li',
+							{ style: { fontWeight: 700, textDecoration: 700 } },
+							'2. 停车场信息共享功能。各个停车场之间信息共享，减少“信息孤岛”带来的负面影响。'
+						),
+						_react2.default.createElement(
+							'li',
+							{ style: { fontWeight: 700, textDecoration: 700 } },
+							'3. 在线车位预定功能。用户可以对空闲状态的车位进行标记，实现简单的预定功能。'
+						),
+						_react2.default.createElement(
+							'li',
+							{ style: { fontWeight: 700, textDecoration: 700 } },
+							'4. 停车位推荐和停车场推荐。针对预定功能的缺陷，系统采用推荐算法进行车位推荐，采用地理位置索引搜索周边停车场。'
+						)
+					)
+				)
+			),
+			_react2.default.createElement(
+				'div',
+				{ className: _Home2.default["op-desc"] },
+				_react2.default.createElement(
+					'h2',
+					{ className: _Home2.default["desc-title"] },
+					_react2.default.createElement(
+						'i',
+						{ className: 'iconfont', style: { font: 21 } },
+						''
+					),
+					'使用方法'
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: _Home2.default["desc-content"] },
+					'使用本系统进行智能停车。',
+					_react2.default.createElement(
+						'p',
+						null,
+						' 通过点击导航栏上的“监控”，可以查看本系统中收录的所有停车场列表，列表中展示了当前停车场的名称和状态，通过点击相应名称，可以进一步查看停车场的具体车位信息。具体信息包括: 总车位数、空闲车位数、已占用车位数和已预约车位数。'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						' 在系统中可以对停车场大致信息进行概览，如果想进一步使用预约车位、停车路径规划等功能，必须先进行用户注册和登录。已登录的用户可以通过点击页面中绿色方块进行车位的预约，每个用户只可以预约一个车位，已经预约车位的用户可通过点击页面底部的“查看路线”按钮来获取停车路径的规划。'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'已登录的用户可以通过点击页面右上角的用户头像进入“用户中心”。用户中心记录了用户在本系统中的所有操作，用户可以在此处查看已预订的车位、取消已预约的车位、查看针对当前已预约车位的推荐车位、查看当前停车场周边的停车场。'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						' 至此，用户通过本系统详细了解了目标停车场的车位状态信息，并通过“预约”功能对车位实现了软标记，即使软标记的车位被强制占用，用户也可以通过推荐功能获得新的停车位信息，系统还为用户提供了停车路径规划等功能，进一步提高了停车效率，缓解人们日常停车难问题，对促进城市交通进步有一定的积极意义。'
+					)
+				)
+			)
 		);
 	};
 
@@ -1264,6 +1336,19 @@ require("source-map-support").install();
 
 /***/ },
 /* 32 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"container": "Home__container-d8WWG",
+		"sys-desc": "Home__sys-desc-2ko8w",
+		"func-desc": "Home__func-desc-1SEKs",
+		"op-desc": "Home__op-desc-gD_FF",
+		"desc-title": "Home__desc-title-21Nrh",
+		"desc-content": "Home__desc-content-3TS8Z"
+	};
+
+/***/ },
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1286,17 +1371,17 @@ require("source-map-support").install();
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
-	var _ParkingState = __webpack_require__(37);
+	var _ParkingState = __webpack_require__(38);
 
 	var _ParkingState2 = _interopRequireDefault(_ParkingState);
 
-	var _StatePreview = __webpack_require__(49);
+	var _StatePreview = __webpack_require__(50);
 
 	var _StatePreview2 = _interopRequireDefault(_StatePreview);
 
-	var _Tips = __webpack_require__(50);
+	var _Tips = __webpack_require__(51);
 
 	var _Tips2 = _interopRequireDefault(_Tips);
 
@@ -1325,16 +1410,42 @@ require("source-map-support").install();
 
 
 	    // 处理预订车位操作
-	    value: function handleOrder(sensorId) {
+	    value: function handleOrder(sensorId, target) {
 	      // 检测登录状态
 	      try {
 	        var user = JSON.parse(sessionStorage.getItem('_user'));
-	        // 向服务器发送"预定"请求
-	        this.props.dispatch((0, _index.userOrder)(sensorId));
+	        // 向服务器发送"预定"请求, 同时更新已登录用户的信息
+	        if (user == null) {
+	          alert('未登录的用户，禁止预定车位操作！');
+	          return;
+	        }
+	        if (user.ordered.vehicleId != null) {
+	          var rs = window.confirm('每个用户只允许预定一个车位,是否替换当前预约的车位？');
+	          if (rs) {
+	            var userid = user._id;
+	            target.style.cssText = 'text-decoration: underline';
+	            this.props.dispatch((0, _index.userOrder)(sensorId, userid));
+	          }
+	        } else {
+	          var userid = user._id;
+	          target.style.cssText = 'text-decoration: underline';
+	          this.props.dispatch((0, _index.userOrder)(sensorId, userid));
+	        }
 	      } catch (err) {
 	        alert('请登陆后操作!');
 	      }
 	    }
+
+	    /**
+	     * 根据当前停车场中所有停车位的评分，来获取被预定车位的相似推荐
+	     * @param  {[type]} sensors  [description]
+	     * @param  {[type]} sensorId [description]
+	     * @return {[type]}          [description]
+	     */
+
+	  }, {
+	    key: 'getRecommendation',
+	    value: function getRecommendation(sensors, sensorId) {}
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
@@ -1349,7 +1460,7 @@ require("source-map-support").install();
 	      dispatch((0, _index.loadMonitor)(id));
 
 	      // 开启服务器推送监听
-	      var mqttClient = __webpack_require__(52);
+	      var mqttClient = __webpack_require__(53);
 	      mqttClient.subscribe(id);
 	      mqttClient.onReceivedMsg(function (data) {
 	        // data{sensorId, status, statusMsg, prevStatusMsg}
@@ -1401,7 +1512,7 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1416,7 +1527,7 @@ require("source-map-support").install();
 	exports.userOrder = userOrder;
 	exports.fetchUserInfo = fetchUserInfo;
 
-	var _api = __webpack_require__(34);
+	var _api = __webpack_require__(35);
 
 	var _isomorphicFetch = __webpack_require__(19);
 
@@ -1492,13 +1603,13 @@ require("source-map-support").install();
 	var ORDERED_RECEIVE = exports.ORDERED_RECEIVE = 'ORDERED_RECEIVE'; // 订单管理：预定或者取消预定
 	var ORDERED_FAILURE = exports.ORDERED_FAILURE = 'ORDERED_FAILURE';
 
-	function userOrder(sensorId) {
+	function userOrder(sensorId, userid) {
 	  // {id, sensorId, status}
 	  return _defineProperty({
 	    sensorId: sensorId
 	  }, _api.CALL_API, {
 	    types: [ORDERED_PATCH, ORDERED_RECEIVE, ORDERED_FAILURE],
-	    endpoint: "/api/v1/vehicle/order/" + sensorId
+	    endpoint: "/api/v1/vehicle/order/" + sensorId + '?userid=' + userid
 	  });
 	}
 
@@ -1551,7 +1662,7 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1567,13 +1678,13 @@ require("source-map-support").install();
 	// Schemas
 	// 网络请求，数据合并，数据归一化
 
-	var _normalizr = __webpack_require__(35);
+	var _normalizr = __webpack_require__(36);
 
 	var _isomorphicFetch = __webpack_require__(19);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _url = __webpack_require__(36);
+	var _url = __webpack_require__(37);
 
 	var _url2 = _interopRequireDefault(_url);
 
@@ -1701,19 +1812,19 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = require("normalizr");
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	module.exports = require("url");
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1728,19 +1839,19 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Tab = __webpack_require__(38);
+	var _Tab = __webpack_require__(39);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _ParkingState = __webpack_require__(44);
+	var _ParkingState = __webpack_require__(45);
 
 	var _ParkingState2 = _interopRequireDefault(_ParkingState);
 
-	var _ParkingItem = __webpack_require__(45);
+	var _ParkingItem = __webpack_require__(46);
 
 	var _ParkingItem2 = _interopRequireDefault(_ParkingItem);
 
-	var _StateIndicator = __webpack_require__(47);
+	var _StateIndicator = __webpack_require__(48);
 
 	var _StateIndicator2 = _interopRequireDefault(_StateIndicator);
 
@@ -1774,8 +1885,8 @@ require("source-map-support").install();
 	          return _react2.default.createElement(
 	            'div',
 	            { className: _ParkingState2.default.wrapper, key: sensor.id },
-	            _react2.default.createElement(_ParkingItem2.default, _extends({}, sensor, { sensorFetching: isFetching, onOrderClick: function onOrderClick() {
-	                return _onOrderClick(sensor.id);
+	            _react2.default.createElement(_ParkingItem2.default, _extends({}, sensor, { sensorFetching: isFetching, onOrderClick: function onOrderClick(target) {
+	                return _onOrderClick(sensor.id, target);
 	              } }))
 	          );
 	        })
@@ -1787,7 +1898,7 @@ require("source-map-support").install();
 	exports.default = ParkingState;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1800,15 +1911,15 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TabTitle = __webpack_require__(39);
+	var _TabTitle = __webpack_require__(40);
 
 	var _TabTitle2 = _interopRequireDefault(_TabTitle);
 
-	var _TabContent = __webpack_require__(41);
+	var _TabContent = __webpack_require__(42);
 
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 
-	var _Tab = __webpack_require__(43);
+	var _Tab = __webpack_require__(44);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
@@ -1838,7 +1949,7 @@ require("source-map-support").install();
 	exports.default = Tab;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1851,7 +1962,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TabTitle = __webpack_require__(40);
+	var _TabTitle = __webpack_require__(41);
 
 	var _TabTitle2 = _interopRequireDefault(_TabTitle);
 
@@ -1876,7 +1987,7 @@ require("source-map-support").install();
 	exports.default = TabTitle;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -1886,7 +1997,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1899,7 +2010,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TabContent = __webpack_require__(42);
+	var _TabContent = __webpack_require__(43);
 
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 
@@ -1921,7 +2032,7 @@ require("source-map-support").install();
 	exports.default = TabContent;
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -1929,7 +2040,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -1937,7 +2048,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -1949,7 +2060,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1962,7 +2073,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ParkingItem = __webpack_require__(46);
+	var _ParkingItem = __webpack_require__(47);
 
 	var _ParkingItem2 = _interopRequireDefault(_ParkingItem);
 
@@ -2012,7 +2123,7 @@ require("source-map-support").install();
 	          return;
 	        }
 	        // 触发车位预定,向服务器请求
-	        onOrderClick();
+	        onOrderClick(e.target);
 	      } },
 	    _react2.default.createElement(
 	      'div',
@@ -2045,7 +2156,7 @@ require("source-map-support").install();
 	exports.default = ParkingItem;
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2058,7 +2169,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2071,7 +2182,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _StatePreview = __webpack_require__(48);
+	var _StatePreview = __webpack_require__(49);
 
 	var _StatePreview2 = _interopRequireDefault(_StatePreview);
 
@@ -2137,7 +2248,7 @@ require("source-map-support").install();
 	exports.default = StateIndicator;
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2153,7 +2264,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2170,15 +2281,15 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Tab = __webpack_require__(38);
+	var _Tab = __webpack_require__(39);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _StatePreview = __webpack_require__(48);
+	var _StatePreview = __webpack_require__(49);
 
 	var _StatePreview2 = _interopRequireDefault(_StatePreview);
 
-	var _StateIndicator = __webpack_require__(47);
+	var _StateIndicator = __webpack_require__(48);
 
 	var _StateIndicator2 = _interopRequireDefault(_StateIndicator);
 
@@ -2231,7 +2342,7 @@ require("source-map-support").install();
 	      var sensors = vehicle.sensors;
 
 	      var d = new Date();
-	      var date = d.getFullYear() + '-' + d.getMonth() + 1 + '-' + d.getDate();
+	      var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + '  ' + d.getHours() + ':' + d.getMinutes();
 	      return _react2.default.createElement(
 	        'div',
 	        { className: _StatePreview2.default.container },
@@ -2282,7 +2393,7 @@ require("source-map-support").install();
 	              _react2.default.createElement(
 	                'dt',
 	                { className: _StatePreview2.default['state-title'] },
-	                '当前位于:'
+	                '当前停车场:'
 	              ),
 	              _react2.default.createElement(
 	                'dd',
@@ -2337,7 +2448,7 @@ require("source-map-support").install();
 	exports.default = StatePreview;
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2350,7 +2461,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Tips = __webpack_require__(51);
+	var _Tips = __webpack_require__(52);
 
 	var _Tips2 = _interopRequireDefault(_Tips);
 
@@ -2386,7 +2497,7 @@ require("source-map-support").install();
 					{ onClick: function onClick(e) {
 							_reactRouter.browserHistory.push('/path?lng=' + vehicle.location[0] + '&lat=' + vehicle.location[1]);
 						} },
-					'点击查看位置'
+					'点击查看当前停车场位置'
 				)
 			)
 		);
@@ -2395,7 +2506,7 @@ require("source-map-support").install();
 	exports.default = Tips;
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2404,12 +2515,12 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var mqtt = __webpack_require__(53);
+	var mqtt = __webpack_require__(54);
 	var client = mqtt.connect('ws://localhost:8081');
 
 	exports.subscribe = function (id) {
@@ -2445,13 +2556,13 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = require("mqtt");
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2468,9 +2579,9 @@ require("source-map-support").install();
 
 	var _reactRedux = __webpack_require__(7);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
-	var _Selector = __webpack_require__(55);
+	var _Selector = __webpack_require__(56);
 
 	var _Selector2 = _interopRequireDefault(_Selector);
 
@@ -2529,7 +2640,7 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2542,7 +2653,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Selector = __webpack_require__(56);
+	var _Selector = __webpack_require__(57);
 
 	var _Selector2 = _interopRequireDefault(_Selector);
 
@@ -2584,7 +2695,7 @@ require("source-map-support").install();
 	exports.default = Selector;
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2595,7 +2706,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2610,11 +2721,11 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Path = __webpack_require__(58);
+	var _Path = __webpack_require__(59);
 
 	var _Path2 = _interopRequireDefault(_Path);
 
-	var _VehicleSelector = __webpack_require__(54);
+	var _VehicleSelector = __webpack_require__(55);
 
 	var _VehicleSelector2 = _interopRequireDefault(_VehicleSelector);
 
@@ -2650,13 +2761,13 @@ require("source-map-support").install();
 	        center: [locObj.lng, locObj.lat],
 	        zoom: 90
 	      });
-
+	      debugger;
 	      //1. 定位
 	      if (locObj != null) {
 	        // 2.规划路线
 	        // 获取当前位置和目标位置的经纬度
 	        var q = this.props.location.query;
-	        var destLoc = [q.lng, q.lat];
+	        var destLoc = [parseFloat(q.lat), parseFloat(q.lng)];
 	        var srcLoc = [locObj.lng, locObj.lat];
 	        plan(mapObj, srcLoc, destLoc);
 
@@ -2667,7 +2778,7 @@ require("source-map-support").install();
 	          // 2.规划路线
 	          // 获取当前位置和目标位置的经纬度
 	          var q = _this2.props.location.query;
-	          var destLoc = [q.lng, q.lat];
+	          var destLoc = [parseFloat(q.lat), parseFloat(q.lng)];
 	          var srcLoc = [locObj.lng, locObj.lat];
 	          plan(mapObj, srcLoc, destLoc);
 
@@ -2738,7 +2849,7 @@ require("source-map-support").install();
 	      cb(currentLocation);
 	    });
 	    AMap.event.addListener(geolocation, 'error', function (err) {
-	      alert(err.info);
+	      alert('获取定位错误:' + err.info);
 	    });
 	  });
 	}
@@ -2754,9 +2865,10 @@ require("source-map-support").install();
 	      panel: "result"
 	    });
 
+	    debugger;
 	    driving.search(src, dest, function (status, result) {
 	      //TODO 解析返回结果，自己生成操作界面和地图展示界面
-	      alert(status);
+	      alert("定位完成，结果是：" + status);
 	    });
 	  });
 	}
@@ -2787,7 +2899,7 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2797,7 +2909,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2810,7 +2922,7 @@ require("source-map-support").install();
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Api = __webpack_require__(60);
+	var _Api = __webpack_require__(61);
 
 	var _Api2 = _interopRequireDefault(_Api);
 
@@ -2963,7 +3075,7 @@ require("source-map-support").install();
 	exports.default = Api;
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2973,7 +3085,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2982,7 +3094,7 @@ require("source-map-support").install();
 	  value: true
 	});
 
-	var _UserCenter = __webpack_require__(62);
+	var _UserCenter = __webpack_require__(63);
 
 	var _UserCenter2 = _interopRequireDefault(_UserCenter);
 
@@ -2991,7 +3103,7 @@ require("source-map-support").install();
 	exports.default = _UserCenter2.default;
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3008,7 +3120,7 @@ require("source-map-support").install();
 
 	var _reactRedux = __webpack_require__(7);
 
-	var _UserCenter = __webpack_require__(63);
+	var _UserCenter = __webpack_require__(64);
 
 	var _UserCenter2 = _interopRequireDefault(_UserCenter);
 
@@ -3020,7 +3132,7 @@ require("source-map-support").install();
 
 	var _env = __webpack_require__(20);
 
-	var _actions = __webpack_require__(33);
+	var _actions = __webpack_require__(34);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3036,36 +3148,87 @@ require("source-map-support").install();
 		function UserCenter(props) {
 			_classCallCheck(this, UserCenter);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(UserCenter).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserCenter).call(this, props));
+
+			_this.state = { completed: false };
+			return _this;
 		}
 
 		_createClass(UserCenter, [{
+			key: 'onPlanClick',
+			value: function onPlanClick(lng, lat) {
+				_reactRouter.browserHistory.push('/path?lng=' + lng + '&lat=' + lat);
+			}
+		}, {
+			key: 'onCancel',
+			value: function onCancel(id) {
+				//   /vehicle/cancel/:id
+				var cancelUrl = _env.C.apiBase + '/vehicle/cancel/' + id; // 这个id是停停车场和车位混合id
+				(0, _isomorphicFetch2.default)(cancelUrl, {
+					method: 'GET',
+					cache: 'default'
+				}).then(function (res) {
+					if (res.ok) {
+						return res.json();
+					} else {
+						console.log('取消车位预定错误，请仔细检查!');
+						throw new Error('取消车位预定错误，请仔细检查!');
+					}
+				}).then(function (data) {
+					alert(data.result == 'ok' ? data.msg : '取消车位错误');
+					var user = JSON.parse(sessionStorage.getItem('_user'));
+					user.ordered.vehicleId = null;
+					sessionStorage.setItem('_user', JSON.stringify(user));
+					window.location.reload();
+				}).catch(function (err) {
+					throw '取消车位时发生错误：', err;
+				});
+			}
+		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				// 先从缓存中获取，若没有缓存才重新发送请求
 				var cachedUser = sessionStorage.getItem('_user');
 				if (cachedUser == null) {
 					dispatch((0, _actions.fetchUserInfo)(this.props.params.id));
+					location.reload();
 				}
+			}
+		}, {
+			key: 'onComplete',
+			value: function onComplete() {
+				this.setState(function (prevState, prevProps) {
+					return Object.assign({}, prevState, {
+						completed: true
+					});
+				});
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				/**
 	    * 	vehicleId: String,
 	   vehicleName: String,
 	   location: [String],
 	   sensorId: String
 	    */
-				debugger;
+				// 推荐车位功能是从当前停车场中获取相似车位进行推荐
+				var username = this.props.user.username;
+				var userid = this.props.user._id;
 				var _props$user$ordered = this.props.user.ordered;
 				var vehicleId = _props$user$ordered.vehicleId;
 				var vehicleName = _props$user$ordered.vehicleName;
 				var location = _props$user$ordered.location;
 				var sensorId = _props$user$ordered.sensorId;
-				var username = _props$user$ordered.username;
 				var loc = _props$user$ordered.loc;
+				// const ordered_sensor = this.props.sensors[vehicleId+'_'+sensorId];
+				// if (ordered_sensor!= null && ordered_sensor[currentStatus] != 'ordered') {
+				// 	alert('您预订的车位状态发生了变化，请重新选择预订！')
+				// }
 
+				debugger;
 				return _react2.default.createElement(
 					'div',
 					{ className: _UserCenter2.default["container"] },
@@ -3095,31 +3258,29 @@ require("source-map-support").install();
 								'li',
 								null,
 								'停车场地点: ',
-								location[3]
+								location[2] || '未预定车位'
 							),
 							_react2.default.createElement(
 								'li',
 								null,
-								'车位编号: #',
-								sensorId
+								'车位编号: ',
+								sensorId || '未预定车位'
 							),
 							_react2.default.createElement(
 								'li',
 								null,
-								'车位当前状态: 占用'
-							),
-							_react2.default.createElement(
-								'li',
-								null,
-								'查看路径规划'
+								'车位当前状态: ',
+								vehicleName == null ? '未指定' : '已预订'
 							),
 							_react2.default.createElement(
 								'li',
 								null,
 								_react2.default.createElement(
 									'button',
-									{ className: _UserCenter2.default["order-op"] },
-									'预订'
+									{ className: _UserCenter2.default["order-op"], onClick: function onClick() {
+											return _this2.onPlanClick(location[0], location[1]);
+										} },
+									'查看路径规划'
 								),
 								_react2.default.createElement(
 									'button',
@@ -3128,10 +3289,109 @@ require("source-map-support").install();
 								),
 								_react2.default.createElement(
 									'button',
-									{ className: _UserCenter2.default["order-cancle"] },
-									'取消'
+									{ className: _UserCenter2.default["order-op"], onClick: function onClick() {
+											_this2.onComplete();
+										}, style: { background: 'rgb(0,255,0)', color: 'black' } },
+									'完成停车'
+								),
+								_react2.default.createElement(
+									'button',
+									{ className: _UserCenter2.default["order-cancle"],
+										onClick: function onClick(e) {
+											_this2.onCancel(vehicleId + '_' + sensorId + '_' + userid);
+										},
+										disabled: sensorId == null ? true : false,
+										style: { background: sensorId == null ? '#ccc' : '#f60', cursor: sensorId == null ? 'not-allowed' : 'pointer' }
+									},
+									'取消预定'
 								)
 							)
+						),
+						_react2.default.createElement(
+							'form',
+							{ className: _UserCenter2.default["rate-box"], style: { display: this.state.completed ? 'block' : 'none' } },
+							_react2.default.createElement(
+								'legend',
+								null,
+								'请对本次停车做出等级评价：'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: _UserCenter2.default["rate-item"] },
+								_react2.default.createElement(
+									'span',
+									null,
+									'此次停车是否花费了您大量时间？'
+								),
+								_react2.default.createElement('input', { name: 'rate1', type: 'radio' }),
+								'1 ',
+								_react2.default.createElement('input', { name: 'rate1', type: 'radio' }),
+								'2 ',
+								_react2.default.createElement('input', { name: 'rate1', type: 'radio' }),
+								'3 ',
+								_react2.default.createElement('input', { name: 'rate1', type: 'radio' }),
+								'4 ',
+								_react2.default.createElement('input', { name: 'rate1', type: 'radio' }),
+								'5 '
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: _UserCenter2.default["rate-item"] },
+								_react2.default.createElement(
+									'span',
+									null,
+									'当前车位的停车费用是否昂贵？'
+								),
+								_react2.default.createElement('input', { name: 'rate2', type: 'radio' }),
+								'1 ',
+								_react2.default.createElement('input', { name: 'rate2', type: 'radio' }),
+								'2 ',
+								_react2.default.createElement('input', { name: 'rate2', type: 'radio' }),
+								'3 ',
+								_react2.default.createElement('input', { name: 'rate2', type: 'radio' }),
+								'4 ',
+								_react2.default.createElement('input', { name: 'rate2', type: 'radio' }),
+								'5 '
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: _UserCenter2.default["rate-item"] },
+								_react2.default.createElement(
+									'span',
+									null,
+									'您觉得当前车位是否更安全？'
+								),
+								_react2.default.createElement('input', { name: 'rate3', type: 'radio' }),
+								'1 ',
+								_react2.default.createElement('input', { name: 'rate3', type: 'radio' }),
+								'2 ',
+								_react2.default.createElement('input', { name: 'rate3', type: 'radio' }),
+								'3 ',
+								_react2.default.createElement('input', { name: 'rate3', type: 'radio' }),
+								'4 ',
+								_react2.default.createElement('input', { name: 'rate3', type: 'radio' }),
+								'5 '
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: _UserCenter2.default["rate-item"] },
+								_react2.default.createElement(
+									'span',
+									null,
+									'当前车位距离出口位置是否较远?'
+								),
+								_react2.default.createElement('input', { name: 'rate4', type: 'radio' }),
+								'1 ',
+								_react2.default.createElement('input', { name: 'rate4', type: 'radio' }),
+								'2 ',
+								_react2.default.createElement('input', { name: 'rate4', type: 'radio' }),
+								'3 ',
+								_react2.default.createElement('input', { name: 'rate4', type: 'radio' }),
+								'4 ',
+								_react2.default.createElement('input', { name: 'rate4', type: 'radio' }),
+								'5 '
+							),
+							_react2.default.createElement('input', { type: 'submit', value: '提交', className: _UserCenter2.default["btn-rate"] })
 						)
 					),
 					_react2.default.createElement(
@@ -3140,50 +3400,58 @@ require("source-map-support").install();
 						_react2.default.createElement(
 							'h4',
 							{ className: _UserCenter2.default["rec-title"] },
-							'xxxx停车场相似车位推荐'
+							_react2.default.createElement(
+								'span',
+								{ style: { color: "red" } },
+								vehicleName
+							),
+							'相似停车位推荐'
 						),
 						_react2.default.createElement('div', { className: _UserCenter2.default["decor"] }),
 						_react2.default.createElement(
 							'section',
 							{ className: _UserCenter2.default["card-container"] },
-							_react2.default.createElement(
-								'ul',
-								{ className: _UserCenter2.default["rec-card"] },
-								_react2.default.createElement(
-									'li',
-									{ className: _UserCenter2.default["card-item"] },
-									'车位编号'
-								),
-								_react2.default.createElement(
-									'li',
-									{ className: _UserCenter2.default["card-item"] },
-									'车位状态: ',
+							new Array(6).fill(1).map(function (item, index) {
+								return _react2.default.createElement(
+									'ul',
+									{ key: index, className: _UserCenter2.default["rec-card"] },
 									_react2.default.createElement(
-										'i',
-										{ className: _UserCenter2.default["status-occupy"] },
-										' '
+										'li',
+										{ className: _UserCenter2.default["card-item"] },
+										'车位编号:',
+										index
 									),
-									'占用'
-								),
-								_react2.default.createElement(
-									'li',
-									{ className: _UserCenter2.default["card-item"] },
 									_react2.default.createElement(
-										'button',
-										{ className: _UserCenter2.default["btn"] },
-										'预订'
-									)
-								),
-								_react2.default.createElement(
-									'li',
-									{ className: _UserCenter2.default["card-item"], style: { marginTop: 8 } },
+										'li',
+										{ className: _UserCenter2.default["card-item"] },
+										'车位状态:',
+										_react2.default.createElement(
+											'i',
+											{ className: index % 2 == 0 ? _UserCenter2.default["status-occupy"] : _UserCenter2.default['status-idle'] },
+											' '
+										),
+										'占用'
+									),
 									_react2.default.createElement(
-										'button',
-										{ className: _UserCenter2.default["btn"] },
-										'取消'
+										'li',
+										{ className: _UserCenter2.default["card-item"] },
+										_react2.default.createElement(
+											'button',
+											{ className: _UserCenter2.default["btn"] },
+											'预订'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										{ className: _UserCenter2.default["card-item"], style: { marginTop: 8 } },
+										_react2.default.createElement(
+											'button',
+											{ className: _UserCenter2.default["btn"] },
+											'取消'
+										)
 									)
-								)
-							)
+								);
+							})
 						)
 					),
 					_react2.default.createElement(
@@ -3193,6 +3461,15 @@ require("source-map-support").install();
 							'h4',
 							null,
 							'周边停车场'
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement('hr', null),
+						'查询附近停车场',
+						_react2.default.createElement('input', { type: 'number', placeholder: '1' }),
+						_react2.default.createElement(
+							'button',
+							{ className: _UserCenter2.default['order-op'] },
+							'查询'
 						),
 						_react2.default.createElement('div', { className: _UserCenter2.default["decor"] }),
 						_react2.default.createElement(
@@ -3251,7 +3528,7 @@ require("source-map-support").install();
 									_react2.default.createElement(
 										'td',
 										null,
-										'西安工业大学'
+										'陕西科技大学停车场'
 									),
 									_react2.default.createElement(
 										'td',
@@ -3293,13 +3570,18 @@ require("source-map-support").install();
 
 	function mapStateToProps(state) {
 		var user = state.user;
-		return { user: user };
+		debugger;
+		var sensors = state.entities.sensors;
+		return {
+			user: user,
+			sensors: sensors
+		};
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(UserCenter);
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -3320,11 +3602,15 @@ require("source-map-support").install();
 		"around-table": "UserCenter__around-table-Cve2c",
 		"btn": "UserCenter__btn-qt1qW",
 		"status-occupy": "UserCenter__status-occupy-3HC5I",
-		"around-park": "UserCenter__around-park-1Hu71"
+		"status-idle": "UserCenter__status-idle-1tYp1",
+		"around-park": "UserCenter__around-park-1Hu71",
+		"rate-box": "UserCenter__rate-box-2y2-u",
+		"rate-item": "UserCenter__rate-item-2LvAs",
+		"btn-rate": "UserCenter__btn-rate-1fD3J"
 	};
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3333,23 +3619,23 @@ require("source-map-support").install();
 		value: true
 	});
 
-	var _redux = __webpack_require__(65);
+	var _redux = __webpack_require__(66);
 
-	var _reduxThunk = __webpack_require__(66);
+	var _reduxThunk = __webpack_require__(67);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(67);
+	var _reduxLogger = __webpack_require__(68);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _APIMiddleware = __webpack_require__(68);
+	var _APIMiddleware = __webpack_require__(69);
 
-	var _api = __webpack_require__(34);
+	var _api = __webpack_require__(35);
 
 	var _api2 = _interopRequireDefault(_api);
 
-	var _index = __webpack_require__(69);
+	var _index = __webpack_require__(70);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -3367,25 +3653,25 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports) {
 
 	module.exports = require("redux");
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports) {
 
 	module.exports = require("redux-thunk");
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports) {
 
 	module.exports = require("redux-logger");
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3470,7 +3756,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3479,25 +3765,25 @@ require("source-map-support").install();
 	  value: true
 	});
 
-	var _redux = __webpack_require__(65);
+	var _redux = __webpack_require__(66);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
 	var ActionTypes = _interopRequireWildcard(_index);
 
-	var _vehicles = __webpack_require__(70);
+	var _vehicles = __webpack_require__(71);
 
 	var _vehicles2 = _interopRequireDefault(_vehicles);
 
-	var _entities = __webpack_require__(71);
+	var _entities = __webpack_require__(72);
 
 	var _entities2 = _interopRequireDefault(_entities);
 
-	var _isFetching = __webpack_require__(72);
+	var _isFetching = __webpack_require__(73);
 
 	var _isFetching2 = _interopRequireDefault(_isFetching);
 
-	var _user = __webpack_require__(73);
+	var _user = __webpack_require__(74);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -3525,7 +3811,7 @@ require("source-map-support").install();
 	});
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3536,7 +3822,7 @@ require("source-map-support").install();
 
 	var _lodash = __webpack_require__(27);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
 	var ActionTypes = _interopRequireWildcard(_index);
 
@@ -3577,7 +3863,7 @@ require("source-map-support").install();
 	exports.default = vehicles;
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3589,7 +3875,7 @@ require("source-map-support").install();
 
 	var _lodash = __webpack_require__(27);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
 	var ActionTypes = _interopRequireWildcard(_index);
 
@@ -3705,7 +3991,7 @@ require("source-map-support").install();
 	}
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3714,7 +4000,7 @@ require("source-map-support").install();
 	  value: true
 	});
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
 	var ActionTypes = _interopRequireWildcard(_index);
 
@@ -3772,7 +4058,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3783,7 +4069,7 @@ require("source-map-support").install();
 
 	var _lodash = __webpack_require__(27);
 
-	var _index = __webpack_require__(33);
+	var _index = __webpack_require__(34);
 
 	var ActionTypes = _interopRequireWildcard(_index);
 
@@ -3826,7 +4112,7 @@ require("source-map-support").install();
 	exports.default = user;
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3840,7 +4126,7 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3867,40 +4153,40 @@ require("source-map-support").install();
 	};
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
 	module.exports = require("webpack");
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
 	module.exports = require("webpack-hot-middleware");
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
 	module.exports = require("webpack-dev-middleware");
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(__dirname) {'use strict';
 
 	var path = __webpack_require__(2);
-	var HtmlwebpackPlugin = __webpack_require__(80);
-	var webpack = __webpack_require__(76);
-	var autoprefixer = __webpack_require__(81);
+	var HtmlwebpackPlugin = __webpack_require__(81);
+	var webpack = __webpack_require__(77);
+	var autoprefixer = __webpack_require__(82);
 
 	var ROOT_PATH = path.normalize(__dirname + '/../..');
 	var APP_PATH = path.resolve(ROOT_PATH, 'fe/src/');
 	var BUILD_PATH = path.resolve(ROOT_PATH, 'resources/static/dist');
 	var RESOURCE_PATH = path.resolve(ROOT_PATH, 'resources/static/');
 
-	var ExtractTextPlugin = __webpack_require__(82); // 分离css文件
+	var ExtractTextPlugin = __webpack_require__(83); // 分离css文件
 	var commonStyleExtract = new ExtractTextPlugin("common.css"); //{ allChunks: true}默认选项,全局css打包插件配置
 	var moduleStyleExtract = new ExtractTextPlugin('module.css'); // 模块css打包插件配置
 	// ExtractTextPlugin.extract(loaders)只有一个要打包的就直接使用这个函数包裹loader，否则就像上面那样配置。
@@ -3922,7 +4208,7 @@ require("source-map-support").install();
 		externals: { 'mqtt': 'mqtt' },
 
 		postcss: function postcss() {
-			return [__webpack_require__(81), __webpack_require__(83)];
+			return [__webpack_require__(82), __webpack_require__(84)];
 		}
 		// postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
 
@@ -3951,37 +4237,37 @@ require("source-map-support").install();
 	/* WEBPACK VAR INJECTION */}.call(exports, "fe\\build"))
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
 	module.exports = require("html-webpack-plugin");
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
 	module.exports = require("autoprefixer");
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports) {
 
 	module.exports = require("extract-text-webpack-plugin");
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports) {
 
 	module.exports = require("precss");
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports) {
 
 	module.exports = require("http");
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports) {
 
 	module.exports = require("socket.io");
