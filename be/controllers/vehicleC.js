@@ -387,8 +387,11 @@ exports.queryRange = function* (next){
 	var location = obj.location;
 	var range = obj.range;
 
+	console.log('________range:', range);
+	console.log('_________location', JSON.stringify(location));
+
 	try{
-		var rs = yield Vehicle.find({location:{$near:[location[0], location[1]],$maxDistance:range}}).exec();
+		var rs = yield Vehicle.find({location:{$near:[parseFloat(location[0]), parseFloat(location[1])],$maxDistance:range}}).exec();
 		this.body = {
 			range: range,
 			near: rs

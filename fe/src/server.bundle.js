@@ -1428,8 +1428,9 @@ require("source-map-support").install();
 	          }
 	        } else {
 	          var userid = user._id;
-	          target.style.cssText = 'text-decoration: underline';
-	          this.props.dispatch((0, _index.userOrder)(sensorId, userid));
+	          if (window.confirm('是否预订该车位？')) {
+	            this.props.dispatch((0, _index.userOrder)(sensorId, userid));
+	          }
 	        }
 	      } catch (err) {
 	        alert('请登陆后操作!');
@@ -1663,7 +1664,8 @@ require("source-map-support").install();
 	}
 
 	var QUERY_RANGE = exports.QUERY_RANGE = 'QUERY_RANGE';
-	function range(data) {
+	function nearInfo(data) {
+	  debugger;
 	  return {
 	    type: QUERY_RANGE,
 	    data: data
@@ -1680,6 +1682,7 @@ require("source-map-support").install();
 	}
 
 	function fetchRange(dispatch, range, location) {
+	  debugger;
 	  var queryUrl = _env.C.apiBase + '/queryrange';
 	  (0, _isomorphicFetch2.default)(queryUrl, {
 	    method: 'POST',
@@ -1698,14 +1701,13 @@ require("source-map-support").install();
 	      throw new Error('查询地理位置出错');
 	    }
 	  }).then(function (json) {
-	    dispatch(range(json));
+	    debugger;
+	    return dispatch(nearInfo(json));
 	    // json格式
 	    // {
 	    //  range:
 	    //  near:[{object}]
 	    // }
-	  }).catch(function (err) {
-	    throw new Error('查询地理位置错误为：', err);
 	  });
 	}
 
@@ -2448,11 +2450,6 @@ require("source-map-support").install();
 	                { className: _StatePreview2.default['state-content'] },
 	                name
 	              )
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: _StatePreview2.default['btn-stop'] },
-	              '停止监控'
 	            )
 	          )
 	        )
@@ -3236,11 +3233,7 @@ require("source-map-support").install();
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				// 先从缓存中获取，若没有缓存才重新发送请求
-				var cachedUser = sessionStorage.getItem('_user');
-				if (cachedUser == null) {
-					dispatch((0, _actions.fetchUserInfo)(this.props.params.id));
-					location.reload();
-				}
+				this.props.dispatch((0, _actions.fetchUserInfo)(this.props.params.id));
 			}
 		}, {
 			key: 'onComplete',
@@ -3254,7 +3247,8 @@ require("source-map-support").install();
 		}, {
 			key: 'queryNear',
 			value: function queryNear(range, location) {
-				(0, _actions.queryRange)(range, location);
+				debugger;
+				this.props.dispatch((0, _actions.queryRange)(range, location));
 			}
 		}, {
 			key: 'render',
@@ -3268,6 +3262,10 @@ require("source-map-support").install();
 	   sensorId: String
 	    */
 				// 推荐车位功能是从当前停车场中获取相似车位进行推荐
+				if (this.props.user._id != null && typeof window != 'undefined') {
+					sessionStorage.setItem('_user', JSON.stringify(this.props.user));
+				}
+
 				var username = this.props.user.username;
 				var userid = this.props.user._id;
 				var nearPoint = this.props.user.nearPoint.near || [];
@@ -3282,7 +3280,7 @@ require("source-map-support").install();
 				// 	alert('您预订的车位状态发生了变化，请重新选择预订！')
 				// }
 
-				var range = 10;
+				var rangeInput;
 				debugger;
 				return _react2.default.createElement(
 					'div',
@@ -3334,19 +3332,20 @@ require("source-map-support").install();
 									'button',
 									{ className: _UserCenter2.default["order-op"], onClick: function onClick() {
 											return _this2.onPlanClick(location[0], location[1]);
-										} },
+										},
+										disabled: sensorId == null ? true : false,
+										style: { background: sensorId == null ? '#ccc' : '#f60', cursor: sensorId == null ? 'not-allowed' : 'pointer' }
+									},
 									'查看路径规划'
 								),
 								_react2.default.createElement(
 									'button',
-									{ className: _UserCenter2.default["order-ensure"] },
-									'√已预订'
-								),
-								_react2.default.createElement(
-									'button',
-									{ className: _UserCenter2.default["order-op"], onClick: function onClick() {
+									{ className: _UserCenter2.default["order-op"],
+										onClick: function onClick() {
 											_this2.onComplete();
-										}, style: { background: 'rgb(0,255,0)', color: 'black' } },
+										},
+										disabled: sensorId == null ? true : false,
+										style: { background: sensorId == null ? '#ccc' : '#f60', cursor: sensorId == null ? 'not-allowed' : 'pointer' } },
 									'完成停车'
 								),
 								_react2.default.createElement(
@@ -3522,17 +3521,17 @@ require("source-map-support").install();
 						'查询附近停车场',
 						_react2.default.createElement('input', { type: 'number', placeholder: '1',
 							ref: function ref(node) {
-								range = node.value;
+								rangeInput = node;
 							} }),
 						_react2.default.createElement(
 							'button',
 							{ onClick: function onClick() {
-									return _this2.queryNear(range, location);
+									return _this2.queryNear(rangeInput.value, location);
 								},
 								className: _UserCenter2.default['order-op'] },
 							'查询'
 						),
-						'(单位：米)',
+						'(单位：km)',
 						_react2.default.createElement('div', { className: _UserCenter2.default["decor"] }),
 						_react2.default.createElement(
 							'table',
@@ -3587,7 +3586,7 @@ require("source-map-support").install();
 										_react2.default.createElement(
 											'td',
 											null,
-											'point.name'
+											point.name
 										),
 										_react2.default.createElement(
 											'td',

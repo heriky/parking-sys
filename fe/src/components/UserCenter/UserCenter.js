@@ -74,7 +74,7 @@ class UserCenter extends Component{
 		sensorId: String
 		 */
 		// 推荐车位功能是从当前停车场中获取相似车位进行推荐
-		if (this.props.user._id != null) {
+		if (this.props.user._id != null && typeof window != 'undefined') {
 			sessionStorage.setItem('_user', JSON.stringify(this.props.user));
 		}
 
@@ -188,7 +188,7 @@ class UserCenter extends Component{
 				<input type="number" placeholder='1'
 				ref={(node)=>{rangeInput = node}}/>
 				<button onClick={()=>this.queryNear(rangeInput.value, location)}
-						className={styles['order-op']}>查询</button>(单位：米)
+						className={styles['order-op']}>查询</button>(单位：km)
 				<div className={styles["decor"]}></div>
 				<table className={styles["around-table"]}>
 					<caption>周边停车场列表</caption>
